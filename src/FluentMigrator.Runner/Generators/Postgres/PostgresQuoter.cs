@@ -2,7 +2,7 @@ using FluentMigrator.Runner.Generators.Generic;
 
 namespace FluentMigrator.Runner.Generators.Postgres
 {
-    public class PostgresQuoter : GenericQuoter
+    public class PostgresQuoter : GenericQuoter, IPostgresQuoter
     {
         public override string FormatBool(bool value) { return value ? "true" : "false"; }
 

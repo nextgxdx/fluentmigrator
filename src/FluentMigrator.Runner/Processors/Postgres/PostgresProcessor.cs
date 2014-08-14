@@ -7,10 +7,10 @@ using FluentMigrator.Runner.Helpers;
 
 namespace FluentMigrator.Runner.Processors.Postgres
 {
+    using Generators;
+
     public class PostgresProcessor : GenericProcessorBase
     {
-        readonly PostgresQuoter quoter = new PostgresQuoter();
-
         public override string DatabaseType
         {
             get { return "Postgres"; }
@@ -27,6 +27,11 @@ namespace FluentMigrator.Runner.Processors.Postgres
         public PostgresProcessor(IDbConnection connection, IMigrationGenerator generator, IAnnouncer announcer, IMigrationProcessorOptions options, IDbFactory factory)
             : base(connection, factory, generator, announcer, options)
         {
+        }
+
+        public IPostgresQuoter Quoter
+        {
+            get { return (IPostgresQuoter) ((PostgresGenerator) this.Generator).Quoter; }
         }
 
         public override void Execute(string template, params object[] args)
@@ -66,7 +71,7 @@ namespace FluentMigrator.Runner.Processors.Postgres
 
         public override DataSet ReadTableData(string schemaName, string tableName)
         {
-            return Read("SELECT * FROM {0}.{1}", quoter.QuoteSchemaName(schemaName), quoter.QuoteTableName(tableName));
+            return Read("SELECT * FROM {0}.{1}", Quoter.QuoteSchemaName(schemaName), Quoter.QuoteTableName(tableName));
         }
 
         public override bool DefaultValueExists(string schemaName, string tableName, string columnName, object defaultValue)
@@ -144,12 +149,12 @@ namespace FluentMigrator.Runner.Processors.Postgres
 
         private string FormatToSafeSchemaName(string schemaName)
         {
-            return FormatHelper.FormatSqlEscape(quoter.UnQuoteSchemaName(schemaName));
+            return FormatHelper.FormatSqlEscape(Quoter.UnQuoteSchemaName(schemaName));
         }
 
         private string FormatToSafeName(string sqlName)
         {
-            return FormatHelper.FormatSqlEscape(quoter.UnQuote(sqlName));
+            return FormatHelper.FormatSqlEscape(Quoter.UnQuote(sqlName));
         }
     }
 }

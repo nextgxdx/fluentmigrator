@@ -10,7 +10,22 @@ namespace FluentMigrator.Runner.Generators.Postgres
 {
     public class PostgresGenerator : GenericGenerator
     {
-        public PostgresGenerator() : base(new PostgresColumn(), new PostgresQuoter(), new EmptyDescriptionGenerator()) { }
+        public PostgresGenerator()
+            : base(new PostgresColumn(new PostgresQuoter()), new PostgresQuoter(), new EmptyDescriptionGenerator())
+        {
+        }
+
+        public PostgresGenerator(bool lowerCaseIdentifiers)
+            : base(
+                new PostgresColumn(GetQuoter(lowerCaseIdentifiers)), GetQuoter(lowerCaseIdentifiers),
+                new EmptyDescriptionGenerator())
+        {
+        }
+
+        private static IPostgresQuoter GetQuoter(bool lowerCaseIdentifiers)
+        {
+            return lowerCaseIdentifiers ? (IPostgresQuoter) new PostgresLowerCaseQuoter() : (IPostgresQuoter) new PostgresQuoter();
+        }
 
         public override string Generate(CreateSchemaExpression expression)
         {

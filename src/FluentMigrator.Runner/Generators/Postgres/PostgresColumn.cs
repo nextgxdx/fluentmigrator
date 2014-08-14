@@ -8,7 +8,7 @@ namespace FluentMigrator.Runner.Generators.Postgres
 {
     internal class PostgresColumn : ColumnBase
     {
-        public PostgresColumn() : base(new PostgresTypeMap(), new PostgresQuoter())
+        public PostgresColumn(IQuoter quoter) : base(new PostgresTypeMap(), quoter)
         {
             AlterClauseOrder = new List<Func<ColumnDefinition, string>> { FormatAlterType, FormatAlterNullable };
         }
