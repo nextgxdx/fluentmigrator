@@ -109,8 +109,9 @@
     <AssemblyOriginatorKeyFile>..\FluentMigrator.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Pgpass.Net">
-      <HintPath>..\..\packages\Pgpass.Net.1.0.2\lib\net35\Pgpass.Net.dll</HintPath>
+    <Reference Include="Pgpass.Net, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Pgpass.Net.1.0.3\lib\net35\Pgpass.Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
